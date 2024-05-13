@@ -1,5 +1,5 @@
 # Use the official Node.js 18.x image as base for building the client
-FROM node:18-alpine3.18 AS client-builder
+FROM node:22-alpine AS client-builder
 
 # Set the working directory in the container
 WORKDIR /app
@@ -19,7 +19,7 @@ RUN npm run build
 # Use NGINX to serve the compiled React app
 FROM nginx:alpine3.19
 
-# Cop the compiled React app from the client-builder stage to NGINX
+# Copy the compiled React app from the client-builder stage to NGINX
 COPY --from=client-builder /app/build /usr/share/nginx/html
 
 #Expose port 80
