@@ -15,7 +15,7 @@ services:
       - yolo-network
 
   mongo:
-    image: mongo:4.0.4
+    image: mongo:latest
     volumes:
       - mongodb_data:/data/db
     ports:
