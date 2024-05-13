@@ -1,5 +1,5 @@
 #  Use the official Node.js image as base
-FROM node:22-alpine AS server-builder
+FROM node:18.20-alpine3.19 AS server-builder
 
 # Set the working directory in the container
 WORKDIR /app
