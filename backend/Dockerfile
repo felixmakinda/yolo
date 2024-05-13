@@ -1,22 +1,20 @@
-# Stage 1: Build the backend
-FROM node:22-alpine as backend-builder
+#  Use the official Node.js image as base
+FROM node:22-alpine AS server-builder
 
-WORKDIR /app/backend
-
-COPY ./backend/package*.json ./
-RUN npm install 
-
-COPY . .
-
-#Stage 2: Final image with compiled backend
-FROM node:22-alpine
-
+# Set the working directory in the container
 WORKDIR /app
 
-#Copy built backend from the backend-builder stage
-COPY --from=backend-builder /app/. .
+# Copy package.json and package-lock.json to the container
+COPY package*.json ./
 
-#Expose backend port
+# Install dependencies
+RUN npm install --only=production
+
+# Copy the rest of the application to the container
+COPY . .
+
+# Export port 5000
 EXPOSE 5000
 
+# Command to run the backend server
 CMD [ "node", "server.js" ]

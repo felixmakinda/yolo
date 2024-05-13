@@ -1,26 +1,29 @@
-#Stage 1: Build the client
-FROM node:22-alpine as client-builder
+# Use the official Node.js 18.x image as base for building the client
+FROM node:22-alpine AS client-builder
 
-COPY package.json /app/
-COPY . /app/
-
+# Set the working directory in the container
 WORKDIR /app
 
+# Copy package.json and package-lock.json to the container
+COPY package*.json ./
+
+# Install dependencies
 RUN npm install
 
-CMD ["npm","start"]
+# Copy the rest of the application to the container
+COPY . .
 
-#RUN npm run build
+# Build the frontend
+RUN npm run build
 
-#Stage 2: Final image with compiled client
-#FROM nginx:alpine3.19
+# Use NGINX to serve the compiled React app
+FROM nginx:alpine3.19
 
-#WORKDIR /usr/share/nginx/html
+# Cop the compiled React app from the client-builder stage to NGINX
+COPY --from=client-builder /app/build /usr/share/nginx/html
 
-#Copy built client from the client-builder stage
-#COPY --from=client-builder /usr/src/app/build .
+#Expose port 80
+EXPOSE 80
 
-#EXPOSE 80
-
-#Ensure NGINX starts when the container is run
-#CMD ["nginx","-g","daemon off;"]
+# Start NGINX to serve the React app
+CMD ["nginx","-g","daemon off;"]
