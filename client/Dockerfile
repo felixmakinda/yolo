@@ -4,8 +4,8 @@ FROM node:18.20-alpine3.19 AS client-builder
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json to the container
-COPY package*.json ./
+# Copy package.json to the container
+COPY package.json ./
 
 # Install dependencies
 RUN npm install
