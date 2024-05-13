@@ -1,5 +1,5 @@
 # Use the official Node.js 18.x image as base for building the client
-FROM node:22-alpine AS client-builder
+FROM node:18-alpine3.18 AS client-builder
 
 # Set the working directory in the container
 WORKDIR /app
