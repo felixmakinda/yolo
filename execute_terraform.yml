@@ -1,0 +1,23 @@
+---
+- name: Execute Terraform
+  hosts: localhost
+  gather_facts: false  # No need to gather facts on localhost
+
+  vars:
+    terraform_dir: "./stage_two/terraform"
+
+  tasks:
+    - name: Initialize Terraform
+      ansible.builtin.command:
+        cmd: "terraform init"
+        chdir: "{{ terraform_dir }}"
+      register: terraform_init
+      changed_when: terraform_init.stdout.find("Terraform has been successfully initialized") != -1
+
+    - name: Apply Terraform
+      ansible.builtin.command:
+        cmd: "terraform apply -auto-approve"
+        chdir: "{{ terraform_dir }}"
+      when: terraform_init is succeeded
+
+- import_playbook: playbook.yml
