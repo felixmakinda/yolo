@@ -1,0 +1,8 @@
+---
+- name: Build the backend Docker image
+  docker_image:
+    name: "backend"
+    tag: "1.0.0"
+    build:
+      path: "{{ dockerfile_path }}"
+  notify: restart backend container
