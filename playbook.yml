@@ -1,3 +1,4 @@
+---
 - name: Provisioning webservers
   hosts: all
   become: true
@@ -15,13 +16,15 @@
         path: "{{ dest }}/client"
         port: "3000:80"
 
-  tasks:
-    - name: Install Dependencies
+  pre_tasks:
+    - name: Install dependencies
       apt:
         name: 
           - python3-pip
           - git
+          - docker.io
         state: present
+        update_cache: yes
 
     - name: Install Docker Python SDK
       pip:
@@ -50,15 +53,26 @@
     - name: restart docker
       docker_container:
         name: "{{ item.name }}"
-        state: started
-        restart_policy: always
+        state: restarted
       loop: "{{ docker_images }}"
 
-    - name: Run Docker containers
-      docker_container:
-        name: "{{ item.name }}"
-        image: "{{ item.name }}:{{ item.tag }}"
-        state: started
-        ports: "{{ item.port }}"
-      loop: "{{ docker_images }}"
+  tasks:
+    - name: Build Docker containers
+      block:
+        - name: Build Docker image
+          docker_image:
+            name: "{{ item.name }}"
+            tag: "{{ item.tag }}"
+            build:
+              path: "{{ item.path }}"
+          loop: "{{ docker_images }}"
+
+        - name: Run Docker container
+          docker_container:
+            name: "{{ item.name }}"
+            image: "{{ item.name }}:{{ item.tag }}"
+            state: started
+            ports:
+              - "{{ item.port }}"
+          loop: "{{ docker_images }}"
       notify: restart docker
