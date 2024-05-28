@@ -36,3 +36,6 @@
 ![alt text](image1.png)
 
 ![alt text](image2.png)
+
+8. **Ansible, Provisioning of Vagrant VM**:
+   - The setup involved provisioning a Vagrant virtual machine with the latest Ubuntu server. Ansible was used to automate the setup process, with a playbook defined in the root directory of the main project. Concepts like variables, roles, blocks, and tags were implemented for better organization and ease of assessment. The playbook cloned the code from the provided GitHub repository and set up Docker containers for the application components. Each container was configured using unique roles, allowing for modularity and maintainability. After running the playbook, the application could be accessed via the browser, with the necessary setups completed in the Vagrant virtual machine.
