@@ -17,6 +17,9 @@ spec:
           image: felixmakinda/backend:1.0.0
           ports:
             - containerPort: 5000
+          resources:
+            cpu: "1"
+            memory: "512Mi"
 ---
 apiVersion: v1
 kind: Service
