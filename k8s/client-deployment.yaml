@@ -16,7 +16,7 @@ spec:
         - name: client
           image: felixmakinda/client:1.0.0
           ports:
-            - containerPort: 80
+            - containerPort: 3000
 ---
 apiVersion: v1
 kind: Service
@@ -27,6 +27,6 @@ spec:
     app: client
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 80
+      port: 3000
+      targetPort: 3000
   type: LoadBalancer
