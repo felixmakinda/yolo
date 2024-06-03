@@ -18,8 +18,12 @@ spec:
           ports:
             - containerPort: 5000
           resources:
-            cpu: "1"
-            memory: "512Mi"
+            limits:
+              cpu: "0.5"
+              memory: "512Mi"
+          env:
+            - name: MONGODB_URI
+              value: "mongodb://mongo:27017/yolomy"
 ---
 apiVersion: v1
 kind: Service
