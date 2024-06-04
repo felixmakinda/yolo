@@ -19,11 +19,11 @@ spec:
             - containerPort: 5000
           resources:
             limits:
-              cpu: "0.5"
+              cpu: "0.1"
               memory: "512Mi"
           env:
             - name: MONGODB_URI
-              value: "mongodb://mongo:27017/yolomy"
+              value: "mongodb://mongo-0.mongo,mongo-1.mongo,mongo-2.mongo:27017/yolomy"
 ---
 apiVersion: v1
 kind: Service
